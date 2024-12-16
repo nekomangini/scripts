@@ -1,2 +1,2 @@
-# rust-scripts
-Collection of Rust scripts that I have used
+# Scripts
+Collection of scripts that I have used
