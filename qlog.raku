@@ -15,23 +15,23 @@ sub get-default-template($topic-arg, $filename-arg) {
 
     # Define the template content
     my $template-content = qq:to/END_TEMPLATE/;
-[[$topic-name/$filename]]
 date: $date
 
 * 🎯 Task in Focus
- - What I’m doing:
-   -
- - Why I’m doing it:
-   -
+ ** What I’m doing:
+    -
+ ** Why I’m doing it:
+    -
 
 * 🔥 Problem
- - What’s broken or missing:
-   -
+ ** What’s broken or missing:
+    -
 
 * 💡 Solution
- - My approach:
-   -
- - Code / Commands:
+ ** My approach:
+    -
+ ** Code / Commands:
+
    #+BEGIN_SRC shell
    #+END_SRC
 
@@ -54,11 +54,12 @@ chdir($path);
 
 sub create-log {
     my $raw-filename = prompt("Enter filename: ");
-    my $raw-topic = prompt("Enter topic: ");
+    my $raw-category = prompt("Enter category: ");
 
     # 1. Determine the final filename
-    my $filename = $raw-filename.wordcase;
-    my $topic = $raw-topic.wordcase;
+    my $category = $raw-category.wordcase;
+    my $topic = $raw-filename.wordcase;
+    my $filename = "$category" ~ "___" ~ "$topic";
     unless $filename.lc.ends-with($DEFAULT_EXT) {
         $filename ~= $DEFAULT_EXT;
     }
