@@ -31,13 +31,18 @@ sub MAIN(Str $word) {
 
     # 3. Launch Editor (hx) using the captured selection
     if $selected-line.chars {
-        say "Launching hx with arguments: $selected-line";
+        # 3. FIX: Parse the selected line (e.g., file:line:col:code)
+        # We split the string by ':' into at most 4 parts.
+        my @parts = $selected-line.split(":", 4);
 
-        # The selected-line contains the rg output format (file:line:col:text).
-        # We execute 'hx' directly with this string.
-        # Use 'shell' here to execute the command in the shell environment.
-        # This is equivalent to 'hx file:line:col:text'
-        shell "hx $selected-line";
+        # We take only the first three parts (file, line, column) and join them back.
+        # This creates the correct 'file:line:column' format required by hx.
+        my $hx-args = @parts[0..2].join(":");
+
+        say "Launching hx with clean arguments: $hx-args";
+
+        # Use 'exec' in shell to launch hx and replace the current Raku process
+        shell "exec hx $hx-args";
 
         say "Editor closed.";
     } else {
